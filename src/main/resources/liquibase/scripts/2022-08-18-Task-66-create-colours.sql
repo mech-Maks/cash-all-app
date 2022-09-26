@@ -1,0 +1,10 @@
+insert into colour (colour_name) values ('UIColor.purple');
+insert into colour (colour_name) values ('UIColor.pumpkin');
+insert into colour (colour_name) values ('UIColor.red');
+insert into colour (colour_name) values ('UIColor.greenSea');
+insert into colour (colour_name) values ('UIColor.darkGray');
+insert into colour (colour_name) values ('UIColor.gray');
+insert into colour (colour_name) values ('UIColor.cyan');
+insert into colour (colour_name) values ('UIColor.yellow');
+insert into colour (colour_name) values ('UIColor.brown');
+insert into colour (colour_name) values ('UIColor.amethyst');

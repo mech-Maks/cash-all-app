@@ -1,0 +1,28 @@
+version: '3.1'
+
+services:
+  postgres-server:
+    image: postgres:13.1
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 12345
+    volumes:
+      - ./db/postgresql:/var/lib/postgresql
+    ports:
+      - 5431:5432
+
+  sirius-app:
+    #    image: alexyakovlev90/sirius-app:latest
+    build: .
+    container_name: sirius-app
+    depends_on:
+      - "postgres-server"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-server:5432/postgres
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=12345
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=validate
+    volumes:
+      - ./db/postgresql:/var/lib/postgresql
+    ports:
+      - 9090:8080

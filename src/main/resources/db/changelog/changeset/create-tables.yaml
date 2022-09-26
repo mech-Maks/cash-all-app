@@ -1,0 +1,72 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: team2-tinkoff
+      runOnChange: true
+      changes:
+        - sqlFile:
+            path: liquibase/scripts/2022-08-13-Task-30-create-tables.sql
+            splitStatements: true
+  - changeSet:
+      id: 2
+      author: team2-tinkoff
+      runOnChange: true
+      changes:
+        - sqlFile:
+            path: liquibase/scripts/2022-08-17-Task-64-insert-tables-currency.sql
+            splitStatements: true
+
+  - changeSet:
+      id: 3
+      author: team2-tinkoff
+      runOnChange: true
+      changes:
+        - sqlFile:
+            path: liquibase/scripts/2022-08-17-Task-59-create-icons.sql
+            splitStatements: true
+
+  - changeSet:
+      id: 4
+      author: team2-tinkoff
+      runOnChange: true
+      changes:
+        - sqlFile:
+            path: liquibase/scripts/2022-08-18-Task-66-create-colours.sql
+            splitStatements: true
+
+  - changeSet:
+      id: 5
+      author: team2-tinkoff
+      runOnChange: true
+      changes:
+        - sqlFile:
+            path: liquibase/scripts/2022-08-17-Task-60-create-default-categories.sql
+            splitStatements: true
+
+  - changeSet:
+      id: 6
+      author: team2-tinkoff
+      runOnChange: true
+      changes:
+        - sqlFile:
+            path: liquibase/scripts/2022-08-18-Task-71-alter-operationName-fullBalance.sql
+            splitStatements: true
+
+  - changeSet:
+      id: 7
+      author: team2-tinkoff
+      runOnChange: true
+      changes:
+        - sqlFile:
+            path: liquibase/scripts/2022-08-18-Task-72-add-new-colours-to-db.sql
+            splitStatements: true
+
+
+  - changeSet:
+      id: 8
+      author: team2-tinkoff
+      runOnChange: true
+      changes:
+        - sqlFile:
+            path: liquibase/scripts/2022-19-08-Task-75-update-currency-unicodes.sql
+            splitStatements: true

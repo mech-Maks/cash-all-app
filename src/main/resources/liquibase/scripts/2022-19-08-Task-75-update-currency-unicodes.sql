@@ -1,0 +1,1 @@
+update currency c set unicode = substring(c.unicode from 4 for 4);
