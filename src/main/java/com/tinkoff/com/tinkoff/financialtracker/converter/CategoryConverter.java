@@ -5,60 +5,20 @@ import com.tinkoff.com.tinkoff.financialtracker.domain.Colour;
 import com.tinkoff.com.tinkoff.financialtracker.domain.Icon;
 import com.tinkoff.com.tinkoff.financialtracker.model.CategoryDto;
 import com.tinkoff.com.tinkoff.financialtracker.repo.CategoryRepository;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Component
 public class CategoryConverter {
-    private final CategoryRepository categoryRepository;
+    //TODO change maps to Cache
+    private final Map<Long, String> icons;
+    private final Map<Long, String> colours;
 
     public CategoryConverter(CategoryRepository categoryRepository) {
-        this.categoryRepository = categoryRepository;
-    }
-
-    @Cacheable("icons")
-    public List<Icon> getIcons() {
-        return categoryRepository.getIcons();
-    }
-
-    @Cacheable("colours")
-    public List<Colour> getColours() {
-        return categoryRepository.getColours();
-    }
-
-    private Long getIconIdByName(String iconName) {
-        return getIcons().stream()
-                .filter(i -> i.getIconName().equals(StringUtils.trimToEmpty(iconName)))
-                .map(Icon::getId)
-                .findFirst()
-                .orElse(null);
-    }
-
-    private String getIconNameById(Long iconId) {
-        return getIcons().stream()
-                .filter(i -> i.getId().equals(iconId))
-                .map(Icon::getIconName)
-                .findFirst()
-                .orElse(null);
-    }
-
-    private Long getColourIdByName(String colourName) {
-        return getColours().stream()
-                .filter(c -> c.getColourName().equals(StringUtils.trimToEmpty(colourName)))
-                .map(Colour::getId)
-                .findFirst()
-                .orElse(null);
-    }
-
-    private String getColourNameById(Long colourId) {
-        return getColours().stream()
-                .filter(c -> c.getId().equals(colourId))
-                .map(Colour::getColourName)
-                .findFirst()
-                .orElse(null);
+        icons = categoryRepository.getIcons().stream().collect(Collectors.toMap(Icon::getId, Icon::getIconName));
+        colours = categoryRepository.getColours().stream().collect(Collectors.toMap(Colour::getId, Colour::getColourName));
     }
 
     public Category convert(CategoryDto categoryDto) {
@@ -66,7 +26,7 @@ public class CategoryConverter {
             return null;
         }
 
-        if (getIconIdByName(categoryDto.getIconName()) == null || getColourIdByName(categoryDto.getColourName()) == null) {
+        if (!icons.containsValue(categoryDto.getIconName()) || !colours.containsValue(categoryDto.getColourName())) {
             throw new IllegalArgumentException("No such colour or icon");
         }
 
@@ -75,8 +35,12 @@ public class CategoryConverter {
                 .setName(categoryDto.getName())
                 .setUserId(categoryDto.getUserId())
                 .setIsDefault(categoryDto.getIsDefault())
-                .setColourId(getColourIdByName(categoryDto.getColourName()))
-                .setIconId(getIconIdByName(categoryDto.getIconName()))
+                .setColourId(
+                        colours.entrySet().stream().filter(entry -> categoryDto.getColourName().equals(entry.getValue())).findFirst().get().getKey()
+                )
+                .setIconId(
+                        icons.entrySet().stream().filter(entry -> categoryDto.getIconName().equals(entry.getValue())).findFirst().get().getKey()
+                )
                 .setOperationType(categoryDto.getOperationType());
     }
 
@@ -90,8 +54,8 @@ public class CategoryConverter {
                 .setName(category.getName())
                 .setUserId(category.getUserId())
                 .setIsDefault(category.getIsDefault())
-                .setColourName(getColourNameById(category.getColourId()))
-                .setIconName(getIconNameById(category.getIconId()))
+                .setColourName(colours.get(category.getColourId()))
+                .setIconName(icons.get(category.getIconId()))
                 .setOperationType(category.getOperationType());
     }
 }

@@ -1,9 +1,7 @@
 package com.tinkoff.com.tinkoff.financialtracker.domain;
 
 import com.tinkoff.com.tinkoff.financialtracker.utils.OperationType;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
@@ -22,8 +20,6 @@ import java.time.LocalDate;
 @Setter
 @Accessors(chain = true)
 @Entity(name = "category")
-@AllArgsConstructor
-@NoArgsConstructor
 public class Category {
 
     @Id

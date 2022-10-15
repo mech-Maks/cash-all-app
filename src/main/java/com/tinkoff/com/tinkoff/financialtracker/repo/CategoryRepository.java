@@ -36,16 +36,4 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
 
     @Query("select c from category c where c.userId = :userId and c.operationType = :operationType and c.isDeleted = false or (c.isDefault = true and c.operationType = :operationType)")
     Optional<List<Category>> findAllByUserIdAndOperationType(Long userId, OperationType operationType);
-
-    @Query("select i.id from icon i where i.iconName = :name")
-    Optional<Long> getIconIdByName(String name);
-
-    @Query("select i.iconName from icon i where i.id = :id")
-    Optional<String> getIconNameById(Long id);
-
-    @Query("select c.id from colour c where c.colourName = :name")
-    Optional<Long> getColourIdByName(String name);
-
-    @Query("select c.colourName from colour c where c.id = :id")
-    Optional<String> getColourNameById(Long id);
 }
