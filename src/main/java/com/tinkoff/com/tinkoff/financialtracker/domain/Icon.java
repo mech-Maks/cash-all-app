@@ -1,6 +1,8 @@
 package com.tinkoff.com.tinkoff.financialtracker.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
@@ -15,6 +17,8 @@ import javax.validation.constraints.NotBlank;
 @Setter
 @Accessors(chain = true)
 @Entity(name = "icon")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Icon {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
